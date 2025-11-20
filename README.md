@@ -7,6 +7,7 @@
   6. Using the Package option, select the downloaded tarball and a destination directory.
   7. Click on the Import push button.
   8. Click on the Finish push button.
+  9. 
 *NOTE:* Requires Coreform Cubit 2025.11 or greater for PySide6 support.
 
 The gif illustrates the process. 
