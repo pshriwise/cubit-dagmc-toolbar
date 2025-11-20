@@ -1,12 +1,13 @@
 #!python
 import numpy as np
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QScrollArea, QHeaderView, QFrame, QMenu
-from PyQt5.QtGui import QFont, QColor
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QScrollArea, QHeaderView, QFrame, QMenu
+from PySide6.QtGui import QFont, QColor
+from PySide6.QtCore import Qt
 
 
 import cubit
+import utils
 
 
 def compute_tri_surf_dist_err(surface_id=None):
@@ -69,10 +70,10 @@ class SurfaceTableWidget(QWidget):
         self.resize(400, 300)
 
         # ensure the window appears in the center of the screen
-        desktop = QApplication.desktop().screenGeometry()
-        window_geometry = self.frameGeometry()
-        window_geometry.moveCenter(desktop.center())
-        self.move(window_geometry.topLeft())
+        #desktop = QApplication.desktop().screenGeometry()
+        #window_geometry = self.frameGeometry()
+        #window_geometry.moveCenter(desktop.center())
+        #self.move(window_geometry.topLeft())
 
         layout.addWidget(self.make_line())
 
@@ -98,8 +99,8 @@ class SurfaceTableWidget(QWidget):
     @staticmethod
     def make_line():
         line = QFrame()
-        line.setFrameShape(QFrame.HLine)
-        line.setFrameShadow(QFrame.Sunken)
+        line.setFrameShape(QFrame.Shape.HLine)
+        line.setFrameShadow(QFrame.Shadow.Sunken)
         return line
 
     def set_approximations(self, approx_dict):
@@ -170,7 +171,8 @@ class SurfaceTableWidget(QWidget):
 
 
 if __name__ == "__coreformcubit__":
-    surface_table = SurfaceTableWidget()
+    app = utils.find_claro()
+    surface_table = SurfaceTableWidget(app)
     surface_ids = sorted(cubit.get_entities("surface"))
     approximations = {surface_id: compute_tri_surf_dist_err(surface_id) for surface_id in surface_ids}
     surface_table.set_approximations(approximations)

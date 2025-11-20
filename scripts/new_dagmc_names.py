@@ -1,3 +1,4 @@
+#!python
 
 for (group_name, group_id) in cubit.group_names_ids():
     # ignore group "picked". It is always present by default and isn't
