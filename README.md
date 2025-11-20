@@ -1,5 +1,5 @@
 ## Toolbar Installation:
-  1. Download the tarball.
+  1. Download the tarball, cubit-dagmc-toolbar-pyside6.tar.gz.
   2. Open Coreform Cubit. 
   3. Go to Tools/Custom Toolbar Editor.
   4. Right click in the upper left frame labeled Toolbars.
@@ -7,7 +7,7 @@
   6. Using the Package option, select the downloaded tarball and a destination directory.
   7. Click on the Import push button.
   8. Click on the Finish push button.
-  9. 
+     
 *NOTE:* Requires Coreform Cubit 2025.11 or greater for PySide6 support.
 
 The gif illustrates the process. 
