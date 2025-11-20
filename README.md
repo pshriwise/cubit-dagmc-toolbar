@@ -7,6 +7,7 @@
   6. Using the Package option, select the downloaded tarball and a destination directory.
   7. Click on the Import push button.
   8. Click on the Finish push button.
+*NOTE:* Requires Coreform Cubit 2025.11 or greater for PySide6 support.
 
 The gif illustrates the process. 
 ![import animation](assets/toolbar_import.gif)
@@ -27,11 +28,11 @@ The gif illustrates the process.
 ## Usage
 Once the toolbar is installed five new icons will be displayed in the Coreform Cubit toolbar.
 ![DAGMC toolbar image](assets/dagmc_toolbar.png)
-The first icon presents an about box.
-The second icon renames groups to a consistent naming convention
-The third icon create Cubit blocks and materials from the group names.
-The fourth icon provides a deviation report of the faceted geometry vs the CAD geoemtry.
-The fifth icon reads an HDF5 results file and provides a visualization of lost particles and directions.
+  1. The first icon presents an about box.
+  2. The second icon renames groups to a consistent naming convention
+  3. The third icon create Cubit blocks and materials from the group names.
+  4. The fourth icon provides a deviation report of the faceted geometry vs the CAD geoemtry.
+  5. The fifth icon reads an HDF5 results file and provides a visualization of lost particles and directions.
 
 Once the model is defined you can export to DAGMC by either selecting the File/Export DAGMC option or typing at the command line "export dagmc 'filename.h5m'." Note that the quotation marks around the filename are required Cubit syntax.
 
