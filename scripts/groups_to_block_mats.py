@@ -79,85 +79,83 @@ def convert_groups_to_blocks(checks):
         cubit.cmd(cmd)
 
 def main():
+    app = find_claro()
 
-app = find_claro()
-
-#converter_window = QWidget(parent=app, f=Qt.Window)
-converter_window = QWidget()
-converter_window.setWindowTitle("DAGMC Group to Block Conversion")
-# Set a fixed width to display the full title
-converter_window.resize(400, 300)  # Initial width and height
-
-
-# Layout for checkboxes
-checkboxes = []
-converter_layout = QVBoxLayout()
-
-checkboxLayout = QVBoxLayout()
-# Create checkboxes
-for (gid, name) in dagmc_groups().items():
-    checkboxes.append(QCheckBox(f'Group {gid}: {name}'))
-    checkboxes[-1].setCheckState(2)
-    checkboxLayout.addWidget(checkboxes[-1])
-
-# Scroll area setup
-scrollArea = QScrollArea()
-scrollWidget = QWidget()
-scrollWidget.setLayout(checkboxLayout)
-scrollArea.setWidget(scrollWidget)
-scrollArea.setWidgetResizable(True)
-scrollArea.resize(400, 200)
-
-converter_window.setLayout(converter_layout)
-converter_window.show()
-
-# Create "Select All" and "Deselect All" checkboxes
-selectAllWidget = QPushButton("Select All")
-deselectAllWidget = QPushButton("Deselect All")
-
-# Set "Select All" and "Deselect All" actions
-selectAllWidget.clicked.connect(lambda _: [c.setCheckState(2) for c in checkboxes])
-deselectAllWidget.clicked.connect(lambda _: [c.setCheckState(0) for c in checkboxes])
-
-# Add "Select All" and "Deselect All" to a horizontal layout
-selectButtonLayout = QHBoxLayout()
-selectButtonLayout.addWidget(selectAllWidget)
-selectButtonLayout.addWidget(deselectAllWidget)
+    #converter_window = QWidget(parent=app, f=Qt.Window)
+    converter_window = QWidget()
+    converter_window.setWindowTitle("DAGMC Group to Block Conversion")
+    # Set a fixed width to display the full title
+    converter_window.resize(400, 300)  # Initial width and height
 
 
-# Create a line separator between selection and action buttons
-line = QFrame()
-line.setFrameShape(QFrame.HLine)
-line.setFrameShadow(QFrame.Sunken)
+    # Layout for checkboxes
+    checkboxes = []
+    converter_layout = QVBoxLayout()
 
-# Create buttons
-cancelButton = QPushButton("Cancel")
-convertButton = QPushButton("Convert")
+    checkboxLayout = QVBoxLayout()
+    # Create checkboxes
+    for (gid, name) in dagmc_groups().items():
+        checkboxes.append(QCheckBox(f'Group {gid}: {name}'))
+        checkboxes[-1].setCheckState(2)
+        checkboxLayout.addWidget(checkboxes[-1])
 
-# Set button actions
-close_window = partial(converter_window.close)
+    # Scroll area setup
+    scrollArea = QScrollArea()
+    scrollWidget = QWidget()
+    scrollWidget.setLayout(checkboxLayout)
+    scrollArea.setWidget(scrollWidget)
+    scrollArea.setWidgetResizable(True)
+    scrollArea.resize(400, 200)
 
-def convert_and_close():
-    # create mask and pass to conversion function
-    checks = [c.isChecked() for c in checkboxes]
-    convert_groups_to_blocks(checks)
-    close_window()
+    converter_window.setLayout(converter_layout)
+    converter_window.show()
 
-cancelButton.clicked.connect(close_window)
-convertButton.clicked.connect(convert_and_close)
-# Add buttons to a horizontal layout
-buttonLayout = QHBoxLayout()
-buttonLayout.addWidget(cancelButton)
-buttonLayout.addWidget(convertButton)
+    # Create "Select All" and "Deselect All" checkboxes
+    selectAllWidget = QPushButton("Select All")
+    deselectAllWidget = QPushButton("Deselect All")
 
-# Add button layout to the main layout
-converter_layout.addWidget(scrollArea)
-converter_layout.addLayout(selectButtonLayout)
-converter_layout.addWidget(line)
-converter_layout.addLayout(buttonLayout)
+    # Set "Select All" and "Deselect All" actions
+    selectAllWidget.clicked.connect(lambda _: [c.setCheckState(2) for c in checkboxes])
+    deselectAllWidget.clicked.connect(lambda _: [c.setCheckState(0) for c in checkboxes])
+
+    # Add "Select All" and "Deselect All" to a horizontal layout
+    selectButtonLayout = QHBoxLayout()
+    selectButtonLayout.addWidget(selectAllWidget)
+    selectButtonLayout.addWidget(deselectAllWidget)
+
+
+    # Create a line separator between selection and action buttons
+    line = QFrame()
+    line.setFrameShape(QFrame.HLine)
+    line.setFrameShadow(QFrame.Sunken)
+
+    # Create buttons
+    cancelButton = QPushButton("Cancel")
+    convertButton = QPushButton("Convert")
+
+    # Set button actions
+    close_window = partial(converter_window.close)
+
+    def convert_and_close():
+        # create mask and pass to conversion function
+        checks = [c.isChecked() for c in checkboxes]
+        convert_groups_to_blocks(checks)
+        close_window()
+
+    cancelButton.clicked.connect(close_window)
+    convertButton.clicked.connect(convert_and_close)
+    # Add buttons to a horizontal layout
+    buttonLayout = QHBoxLayout()
+    buttonLayout.addWidget(cancelButton)
+    buttonLayout.addWidget(convertButton)
+
+    # Add button layout to the main layout
+    converter_layout.addWidget(scrollArea)
+    converter_layout.addLayout(selectButtonLayout)
+    converter_layout.addWidget(line)
+    converter_layout.addLayout(buttonLayout)
 
 # the window will appear centered on the Cubit
 # window because the parent is the claro app.
-
 if __name__ == "__coreformcubit__":
-main()
+    main()
