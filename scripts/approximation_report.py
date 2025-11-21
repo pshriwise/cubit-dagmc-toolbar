@@ -69,12 +69,6 @@ class SurfaceTableWidget(QWidget):
         scroll_area.resize(400, 300)
         self.resize(400, 300)
 
-        # ensure the window appears in the center of the screen
-        #desktop = QApplication.desktop().screenGeometry()
-        #window_geometry = self.frameGeometry()
-        #window_geometry.moveCenter(desktop.center())
-        #self.move(window_geometry.topLeft())
-
         layout.addWidget(self.make_line())
 
         # Add a label for reporting the maximum value
