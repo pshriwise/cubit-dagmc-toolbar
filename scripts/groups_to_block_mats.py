@@ -1,3 +1,4 @@
+#!python
 import os
 import sys
 
@@ -6,14 +7,13 @@ print('Adding ' + filepath + ' to path')
 sys.path.append(filepath)
 
 import cubit
-from utils import find_claro
+from utils import find_claro, ErrorWindow
 from functools import partial
 
-import PyQt5.QtWidgets as QtWidgets
-from PyQt5.QtWidgets import QApplication, QCheckBox, QVBoxLayout, QWidget, QMessageBox
-
-app = find_claro()
-
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QCheckBox, QVBoxLayout, QWidget,\
+                              QMessageBox, QFrame, QScrollArea, QPushButton,\
+                              QHBoxLayout
 
 def dagmc_groups():
     """Retrieves groups containing DAGMC metadata
@@ -60,9 +60,12 @@ def convert_groups_to_blocks(checks):
         cmd = f'create block {block_id}'
         cubit.cmd(cmd)
         if len(volumes) != 0:
-            vols = " ".join([str(v) for v in volumes])
-            cmd = f'block {block_id} add volume {" ".join(vols)}'
-            cubit.cmd(cmd)
+            try:
+                vols = " ".join([str(v) for v in volumes])
+                cmd = f'block {block_id} add volume {" ".join(vols)}'
+                cubit.cmd(cmd)
+            except Exception as e:
+                ErrorWindow(e)
         if len(bodies) != 0:
             bods = " ".join([str(b) for b in bodies])
             cmd = f'block {block_id} add body {bods}'
@@ -76,7 +79,9 @@ def convert_groups_to_blocks(checks):
         cubit.cmd(cmd)
 
 def main():
+    app = find_claro()
 
+    #converter_window = QWidget(parent=app, f=Qt.Window)
     converter_window = QWidget()
     converter_window.setWindowTitle("DAGMC Group to Block Conversion")
     # Set a fixed width to display the full title
@@ -95,7 +100,7 @@ def main():
         checkboxLayout.addWidget(checkboxes[-1])
 
     # Scroll area setup
-    scrollArea = QtWidgets.QScrollArea()
+    scrollArea = QScrollArea()
     scrollWidget = QWidget()
     scrollWidget.setLayout(checkboxLayout)
     scrollArea.setWidget(scrollWidget)
@@ -106,27 +111,27 @@ def main():
     converter_window.show()
 
     # Create "Select All" and "Deselect All" checkboxes
-    selectAllWidget = QtWidgets.QPushButton("Select All")
-    deselectAllWidget = QtWidgets.QPushButton("Deselect All")
+    selectAllWidget = QPushButton("Select All")
+    deselectAllWidget = QPushButton("Deselect All")
 
     # Set "Select All" and "Deselect All" actions
     selectAllWidget.clicked.connect(lambda _: [c.setCheckState(2) for c in checkboxes])
     deselectAllWidget.clicked.connect(lambda _: [c.setCheckState(0) for c in checkboxes])
 
     # Add "Select All" and "Deselect All" to a horizontal layout
-    selectButtonLayout = QtWidgets.QHBoxLayout()
+    selectButtonLayout = QHBoxLayout()
     selectButtonLayout.addWidget(selectAllWidget)
     selectButtonLayout.addWidget(deselectAllWidget)
 
 
     # Create a line separator between selection and action buttons
-    line = QtWidgets.QFrame()
-    line.setFrameShape(QtWidgets.QFrame.HLine)
-    line.setFrameShadow(QtWidgets.QFrame.Sunken)
+    line = QFrame()
+    line.setFrameShape(QFrame.HLine)
+    line.setFrameShadow(QFrame.Sunken)
 
     # Create buttons
-    cancelButton = QtWidgets.QPushButton("Cancel")
-    convertButton = QtWidgets.QPushButton("Convert")
+    cancelButton = QPushButton("Cancel")
+    convertButton = QPushButton("Convert")
 
     # Set button actions
     close_window = partial(converter_window.close)
@@ -140,7 +145,7 @@ def main():
     cancelButton.clicked.connect(close_window)
     convertButton.clicked.connect(convert_and_close)
     # Add buttons to a horizontal layout
-    buttonLayout = QtWidgets.QHBoxLayout()
+    buttonLayout = QHBoxLayout()
     buttonLayout.addWidget(cancelButton)
     buttonLayout.addWidget(convertButton)
 
@@ -150,12 +155,7 @@ def main():
     converter_layout.addWidget(line)
     converter_layout.addLayout(buttonLayout)
 
-    # ensure the window appears in the center of the screen
-    desktop = QApplication.desktop().screenGeometry()
-    window_geometry = converter_window.frameGeometry()
-    window_geometry.moveCenter(desktop.center())
-    converter_window.move(window_geometry.topLeft())
-
-
+# the window will appear centered on the Cubit
+# window because the parent is the claro app.
 if __name__ == "__coreformcubit__":
     main()
