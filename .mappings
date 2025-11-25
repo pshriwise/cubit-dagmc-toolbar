@@ -1,6 +1,6 @@
 ./scripts/new_dagmc_names.py => scripts/new_dagmc_names.py
 ./scripts/groups_to_block_mats.py => scripts/groups_to_block_mats.py
-/home/pshriwise/tmp/icons/svalinn.png => icons/svalinn.png
+./icons/svalinn.png => icons/svalinn.png
 ./icons/group_update.png => icons/group_update.png
 ./icons/block_update.png => icons/block_update.png
-/home/pshriwise/tmp/toolbars/dagmc.ttb => toolbars/dagmc.ttb
+./toolbars/dagmc.ttb => toolbars/dagmc.ttb
